@@ -47,7 +47,7 @@ while (true) {
                     if (isset($update['update']['message']['media']) && (retrieveFromMessage($update, 'media')['_'] == 'messageMediaPhoto' || retrieveFromMessage($update, 'media')['_'] == 'messageMediaDocument')) {
                         $time = time();
                         $MadelineProto->messages->sendMessage(['peer' => $destination, 'message' => 'Downloading file...', 'reply_to_msg_id' => retrieveFromMessage($update, 'id')]);
-                        $file = $MadelineProto->download_to_dir($update['update']['message']['media'], TMP_DOWNLOADS);
+                        $file = $MadelineProto->download_to_file($update['update']['message']['media'], TMP_DOWNLOADS . DIRECTORY_SEPARATOR . $update['update']['message']['media']['document']['attributes'][0]['file_name']);
                         $MadelineProto->messages->sendMessage(['peer' => $destination, 'message' => 'Downloaded in ' . (time() - $time) . ' seconds', 'reply_to_msg_id' => retrieveFromMessage($update, 'id')]);
                         $conversations[$destination] = array('downloadDir' => $file, 'fileName' => DIRECTORY_SEPARATOR . getFileName($file, DIRECTORY_SEPARATOR));
                     } else if (isset($update['update']['message']['message'])) {
