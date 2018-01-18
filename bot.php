@@ -49,7 +49,7 @@ while (true) {
                         $MadelineProto->messages->sendMessage(['peer' => $destination, 'message' => 'Downloading file...', 'reply_to_msg_id' => retrieveFromMessage($update, 'id')]);
                         $file = $MadelineProto->download_to_file($update['update']['message']['media'], TMP_DOWNLOADS . DIRECTORY_SEPARATOR . $update['update']['message']['media']['document']['attributes'][0]['file_name']);
                         $MadelineProto->messages->sendMessage(['peer' => $destination, 'message' => 'Downloaded in ' . (time() - $time) . ' seconds', 'reply_to_msg_id' => retrieveFromMessage($update, 'id')]);
-                        $conversations[$destination] = array('downloadDir' => $file, 'fileName' => DIRECTORY_SEPARATOR . getFileName($file, DIRECTORY_SEPARATOR));
+                        $conversations[$destination] = array('downloadDir' => $file, 'fileName' => getFileName($file, DIRECTORY_SEPARATOR));
                     } else if (isset($update['update']['message']['message'])) {
                         $message = retrieveFromMessage($update, 'message');
                         if (startsWith($message, 'http://') || startsWith($message, 'https://') || startsWith($message, 'ftp://')) {
@@ -63,7 +63,7 @@ while (true) {
                         } else if ($message == '/dropbox') {
                             if (isset($conversations[$destination])) {
                                 $MadelineProto->messages->sendMessage(['peer' => $destination, 'message' => 'Uploading file...', 'reply_to_msg_id' => retrieveFromMessage($update, 'id')]);
-                                $dropbox->upload(new DropboxFile($conversations[$destination]['downloadDir']), $conversations[$destination]['fileName'], ['autorename' => true]);
+                                $dropbox->upload(new DropboxFile($conversations[$destination]['downloadDir']), DIRECTORY_SEPARATOR . $conversations[$destination]['fileName'], ['autorename' => true]);
                                 $MadelineProto->messages->sendMessage(['peer' => $destination, 'message' => 'Uploaded!', 'reply_to_msg_id' => retrieveFromMessage($update, 'id')]);
                             } else
                                 $MadelineProto->messages->sendMessage(['peer' => $destination, 'message' => 'You need to send a file first', 'reply_to_msg_id' => retrieveFromMessage($update, 'id')]);
