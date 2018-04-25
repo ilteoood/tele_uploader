@@ -4,8 +4,8 @@
 require 'vendor/autoload.php';
 
 use danog\MadelineProto\API;
-use danog\MadelineProto\Logger;
 use danog\MadelineProto\Exception;
+use danog\MadelineProto\Logger;
 use Kunnu\Dropbox\Dropbox;
 use Kunnu\Dropbox\DropboxApp;
 use Kunnu\Dropbox\DropboxFile;
@@ -15,16 +15,15 @@ const TMP_DOWNLOADS = '.' . DIRECTORY_SEPARATOR . 'tmp_downloads';
 $dropbox = new Dropbox(new DropboxApp(getenv("DB_ID"), getenv("DB_SECRET"), getenv("DB_TOKEN")));
 set_include_path(get_include_path() . ':' . realpath(dirname(__FILE__) . '/MadelineProto/'));
 
-$settings = ['app_info' => ['api_id' => 6, 'api_hash' => 'eb06d4abfb49dc3eeb1aeb98ae0f581e']];
+$settings = ['app_info' => ['api_id' => 246968, 'api_hash' => 'dd9b27c65c119f3b82ac036859e77b53']];
 
 try {
-    $MadelineProto = new API(BOT_SESSION);
+    $MadelineProto = new API(BOT_SESSION, $settings);
 } catch (Exception $e) {
-    var_dump($e->getMessage());
     $MadelineProto = new API($settings);
-    $authorization = $MadelineProto->bot_login(getenv("BOT_TOKEN"));
-    Logger::log([$authorization], Logger::NOTICE);
 }
+
+$authorization = $MadelineProto->bot_login(getenv("BOT_TOKEN"));
 
 if (!file_exists(TMP_DOWNLOADS))
     mkdir(TMP_DOWNLOADS);
