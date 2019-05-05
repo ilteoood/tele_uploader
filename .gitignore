@@ -1,3 +1,4 @@
+.idea/**
 tmp_downloads
 vendor
 *.madeline

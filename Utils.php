@@ -37,3 +37,19 @@ function sendMessage($to, $message, $replyTo)
     $MadelineProto = getBotInstance();
     $MadelineProto->messages->sendMessage(['peer' => $to, 'message' => $message, 'reply_to_msg_id' => $replyTo]);
 }
+
+function isMediaIncoming($update)
+{
+    return isset($update['update']['message']['media']) && (retrieveFromMessage($update, 'media')['_'] == 'messageMediaPhoto'
+            || retrieveFromMessage($update, 'media')['_'] == 'messageMediaDocument');
+}
+
+function isTextMessage($update)
+{
+    return isset($update['update']['message']['message']);
+}
+
+function isDownloadableFile($message)
+{
+    return startsWith($message, 'http://') || startsWith($message, 'https://') || startsWith($message, 'ftp://');
+}
