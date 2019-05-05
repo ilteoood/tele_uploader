@@ -41,7 +41,7 @@ while (true) {
                         }
                     }
                 } catch (RPCErrorException $e) {
-                    $MadelineProto->messages->sendMessage(['peer' => '@ilteoood', 'message' => $e->getCode() . ': ' . $e->getMessage() . PHP_EOL . $e->getTraceAsString()]);
+                    sendMessage('@ilteoood', $e->getCode() . ': ' . $e->getMessage() . PHP_EOL . $e->getTraceAsString(), null);
                 }
         }
     }
