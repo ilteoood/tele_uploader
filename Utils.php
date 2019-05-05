@@ -25,15 +25,6 @@ function getFileName($filePath, $separator)
     return $realFileName;
 }
 
-function downloadFile($message)
-{
-    $fileName = getFileName($message, null);
-    $downloadDir = TMP_DOWNLOADS . DIRECTORY_SEPARATOR . $fileName;
-    if (!file_exists($downloadDir))
-        file_put_contents($downloadDir, fopen("$message", 'r'));
-    return array('downloadDir' => $downloadDir, 'fileName' => $fileName);
-}
-
 function startsWith($string, $toCheck)
 {
     return substr($string, 0, strlen($toCheck)) === $toCheck;
@@ -49,10 +40,17 @@ function retrieveDestination($update)
     return isset($update['update']['message']['from_id']) ? retrieveFromMessage($update, 'from_id') : retrieveFromMessage($update, 'to_id');
 }
 
-function sendMessage($to, $message, $replyTo)
+function sendMessageBase($to, $message, $replyTo)
 {
     $MadelineProto = getBotInstance();
     $MadelineProto->messages->sendMessage(['peer' => $to, 'message' => $message, 'reply_to_msg_id' => $replyTo]);
+}
+
+function sendMessage($update, $message)
+{
+    $destination = retrieveDestination($update);
+    $replyMessageId = retrieveFromMessage($update, 'id');
+    sendMessageBase($destination, $message, $replyMessageId);
 }
 
 function isMediaIncoming($update)

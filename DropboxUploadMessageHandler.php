@@ -12,11 +12,10 @@ function handleDropboxMessage($update, &$conversations)
 {
     global $dropbox;
     $destination = retrieveDestination($update);
-    $replyMessageId = retrieveFromMessage($update, 'id');
     if (isset($conversations[$destination])) {
-        sendMessage($destination, 'Uploading file...', $replyMessageId);
+        sendMessage($update, 'Uploading file...');
         $dropbox->upload(new DropboxFile($conversations[$destination]['downloadDir']), DIRECTORY_SEPARATOR . $conversations[$destination]['fileName'], ['autorename' => true]);
-        sendMessage($destination, 'Uploaded!', $replyMessageId);
+        sendMessage($update, 'Uploaded!');
     } else
-        sendMessage($destination, 'You need to send a file first', $replyMessageId);
+        sendMessage($update, 'You need to send a file first');
 }

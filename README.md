@@ -51,6 +51,16 @@ and then...run!
 $ php bot.php
 ```
 
+## Commands
+
+When you send to the bot a direct download link or a media message, it will download it in it's personal directory.
+After that, you can use the following commands:
+
+- **/telegram**: will upload the file to your Telegram chat
+- **/dropbox**: will upload the file to the Dropbox registered application directory
+
+These actions can be also used with the command **/upload**, that offer to you the ability to navigate your file system to choose what to upload.  
+
 ## Credits
 
 A special thanks to [Daniil Gentili](https://daniil.it/) aka [danog](https://github.com/danog) that created [MadelineProto](https://github.com/danog/MadelineProto).

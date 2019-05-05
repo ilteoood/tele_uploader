@@ -8,12 +8,25 @@ function handleDownloadMessage($update, &$conversations)
 {
     $destination = retrieveDestination($update);
     $message = retrieveFromMessage($update, 'message');
-    $replyMessageId = retrieveFromMessage($update, 'id');
-    sendMessage($destination, 'Downloading file...', $replyMessageId);
+    sendMessage($destination, 'Downloading file...');
     try {
         $conversations[$destination] = downloadFile($message);
-        sendMessage($destination, 'File downloaded!', $replyMessageId);
+        sendMessage($update, 'File downloaded!');
     } catch (Exception $e) {
-        sendMessage($destination, 'Unable to download file', $replyMessageId);
+        sendMessage($update, 'Unable to download file');
     }
+}
+
+function downloadFile($message)
+{
+    $fileName = getFileName($message, null);
+    $downloadDir = TMP_DOWNLOADS . DIRECTORY_SEPARATOR . $fileName;
+    if (!file_exists($downloadDir))
+        file_put_contents($downloadDir, fopen("$message", 'r'));
+    createDownloadFileObject($downloadDir, $fileName);
+}
+
+function createDownloadFileObject($downloadDir, $fileName)
+{
+    return array('downloadDir' => $downloadDir, 'fileName' => $fileName);
 }
