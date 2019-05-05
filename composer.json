@@ -1,17 +1,26 @@
 {
-    "name": "ilteoood/tele_uploader",
-    "description": "A Telegram uploader bot",
-    "type": "project",
-    "license": "AGPL-3.0",
-    "minimum-stability": "dev",
-    "require": {
-        "danog/madelineproto": "*",
-        "phpseclib/phpseclib": "dev-master#273ad17",
-        "kunalvarma05/dropbox-php-sdk": "^0.2.1"
-    },
-    "authors": [
-        {
-            "name": "iLTeoooD"
-        }
-    ]
+  "name": "ilteoood/tele_uploader",
+  "description": "A Telegram uploader bot",
+  "type": "project",
+  "license": "AGPL-3.0",
+  "repositories": [
+    {
+      "type": "git",
+      "url": "https://github.com/danog/phpseclib"
+    }
+  ],
+  "require": {
+    "kunalvarma05/dropbox-php-sdk": "^0.2.1",
+    "amphp/dns": "dev-master",
+    "amphp/uri": "dev-master",
+    "amphp/file": "dev-master",
+    "phpseclib/phpseclib": "dev-master#27370df",
+    "rollbar/rollbar": "dev-master",
+    "danog/madelineproto": "^3.1"
+  },
+  "authors": [
+    {
+      "name": "iLTeoooD"
+    }
+  ]
 }

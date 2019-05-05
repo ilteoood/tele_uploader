@@ -3,36 +3,24 @@
 
 require 'vendor/autoload.php';
 
-use danog\MadelineProto\API;
 use danog\MadelineProto\Exception;
-use danog\MadelineProto\Logger;
 use Kunnu\Dropbox\Dropbox;
 use Kunnu\Dropbox\DropboxApp;
 use Kunnu\Dropbox\DropboxFile;
 
-const BOT_SESSION = 'teleupload.madeline';
-const TMP_DOWNLOADS = '.' . DIRECTORY_SEPARATOR . 'tmp_downloads';
+require_once 'Constants.php';
+require_once 'BotManager.php';
+require_once 'Utils.php';
+
 $dropbox = new Dropbox(new DropboxApp(getenv("DB_ID"), getenv("DB_SECRET"), getenv("DB_TOKEN")));
-set_include_path(get_include_path() . ':' . realpath(dirname(__FILE__) . '/MadelineProto/'));
-
-$settings = ['app_info' => ['api_id' => 246968, 'api_hash' => 'dd9b27c65c119f3b82ac036859e77b53']];
-
-try {
-    $MadelineProto = new API(BOT_SESSION, $settings);
-} catch (Exception $e) {
-    $MadelineProto = new API($settings);
-}
-
-$authorization = $MadelineProto->bot_login(getenv("BOT_TOKEN"));
 
 if (!file_exists(TMP_DOWNLOADS))
     mkdir(TMP_DOWNLOADS);
-$MadelineProto->session = BOT_SESSION;
+$MadelineProto = makeLogin();
 $offset = 0;
 $conversations = array();
 while (true) {
     $updates = $MadelineProto->get_updates(['offset' => $offset, 'limit' => 50, 'timeout' => 0]);
-    Logger::log([$updates]);
     foreach ($updates as $update) {
         $offset = $update['update_id'] + 1;
         switch ($update['update']['_']) {
@@ -80,40 +68,4 @@ while (true) {
                 }
         }
     }
-}
-
-function getFileName($filePath, $separator)
-{
-    $splitted = explode($separator, $filePath);
-    return $splitted[count($splitted) - 1];
-}
-
-function downloadFile($message)
-{
-    $fileName = getFileName($message, '/');
-    $downloadDir = TMP_DOWNLOADS . DIRECTORY_SEPARATOR . $fileName;
-    if (!file_exists($downloadDir))
-        file_put_contents($downloadDir, fopen("$message", 'r'));
-    return array('downloadDir' => $downloadDir, 'fileName' => $fileName);
-}
-
-function startsWith($string, $toCheck)
-{
-    return substr($string, 0, strlen($toCheck)) === $toCheck;
-}
-
-function retrieveFromMessage($update, $toRetrieve)
-{
-    return $update['update']['message'][$toRetrieve];
-}
-
-function retrieveDestination($update)
-{
-    return isset($update['update']['message']['from_id']) ? retrieveFromMessage($update, 'from_id') : retrieveFromMessage($update, 'to_id');
-}
-
-function sendMessage($to, $message, $replyTo)
-{
-    global $MadelineProto;
-    $MadelineProto->messages->sendMessage(['peer' => $to, 'message' => $message, 'reply_to_msg_id' => $replyTo]);
 }
