@@ -4,7 +4,7 @@ use danog\MadelineProto\Exception;
 
 require_once 'Utils.php';
 
-function handleDownloadMessage($update)
+function handleDownloadMessage($update, &$conversations)
 {
     $destination = retrieveDestination($update);
     $message = retrieveFromMessage($update, 'message');

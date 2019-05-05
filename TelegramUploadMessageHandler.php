@@ -3,7 +3,7 @@
 require_once 'BotManager.php';
 require_once 'Utils.php';
 
-function handleTelegramMessage($update, $conversations)
+function handleTelegramMessage($update, &$conversations)
 {
     $MadelineProto = getBotInstance();
     $destination = retrieveDestination($update);

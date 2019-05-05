@@ -3,7 +3,7 @@
 require_once 'BotManager.php';
 require_once 'Utils.php';
 
-function handleMediaMessage($update, $conversations)
+function handleMediaMessage($update, &$conversations)
 {
     $MadelineProto = getBotInstance();
     $destination = retrieveDestination($update);

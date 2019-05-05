@@ -52,7 +52,7 @@ function manageSingleTextMessage($update)
     global $conversations;
     $message = retrieveFromMessage($update, 'message');
     if (isDownloadableFile($message)) {
-        handleDownloadMessage($update);
+        handleDownloadMessage($update, $conversations);
     } else if ($message == '/dropbox') {
         handleDropboxMessage($update, $conversations);
     } else if ($message == '/telegram') {
