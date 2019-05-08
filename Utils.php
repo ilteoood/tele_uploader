@@ -11,7 +11,7 @@ function getFileName($filePath, $separator)
     } else {
         $content = get_headers($filePath, 1);
         $content = array_change_key_case($content, CASE_LOWER);
-        if ($content['content-disposition']) {
+        if (isset($content['content-disposition'])) {
             $splitted = explode(';', $content['content-disposition']);
             if ($splitted[1]) {
                 $splitted = explode('=', $splitted[1]);
