@@ -29,6 +29,7 @@ We have just four keys:
 - DB_ID: the unique dropbox app key
 - DB_SECRET: the unique dropbox app secret
 - DB_TOKEN: the unique dropbox app instance token
+- NAVIGATION_ROOT: the path of the directory where the bot should start look into when you want to upload a local file
 
 For the Dropbox keys, you have to create a new Dropbox application [here](https://www.dropbox.com/developers/apps).
 
