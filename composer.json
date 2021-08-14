@@ -11,11 +11,11 @@
   ],
   "require": {
     "kunalvarma05/dropbox-php-sdk": "^0.2.1",
-    "amphp/dns": "dev-master",
-    "amphp/uri": "dev-master",
-    "amphp/file": "dev-master",
-    "phpseclib/phpseclib": "dev-master#27370df",
-    "rollbar/rollbar": "dev-master",
+    "amphp/dns": "^1.0.0",
+    "amphp/uri": "^0.1.4",
+    "amphp/file": "^0.3.5",
+    "phpseclib/phpseclib": "^2.0.16",
+    "rollbar/rollbar": "^1.8.1",
     "danog/madelineproto": "^3.1"
   },
   "authors": [
